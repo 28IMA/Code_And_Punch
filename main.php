@@ -1,3 +1,20 @@
+<?php
+    session_start();
+    require './function.php';
+    if(!isset($_SESSION['id'])){
+        header('location: index.php');
+        exit;
+    }
+    session_regenerate_id(true);
+    connectDB();
+    $info = getInfo($_SESSION['id']);
+    $username = $_SESSION['username'];
+    $password = $_SESSION['password'];
+    $fullname = $info['fullname'];
+    $email = $info['email'];
+    $phone = $info['phone'];
+    disconnectDB();
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,6 +24,46 @@
     <title>Class</title>
 </head>
 <body>
-    
+    <h1>Wellcome!</h1>
+
+    <!-- Current Info -->
+    <div>
+        <h2>Your Info</h2>
+        <br><br>
+        <ul>
+            <li>
+                <span>Full name: </span>
+                <span><?=$fulllname?></span>
+            </li>
+            <li>
+                <span>Username: </span>
+                <span><?=$username?></span>
+            </li>
+            <li>
+                <span>Password: </span>
+                <span><?=$password?></span>    
+            </li>
+            <li>
+                <span>Email: </span>
+                <span><?=$email?></span>
+            </li>
+            <li>
+                <span>Phone: </span>
+                <span><?=$phone?></span>
+            </li>
+        </ul>
+        <a href="edit.php">Edit</a>
+    </div>
+
+    <!-- function -->
+    <div>
+        <h2>Task</h2><br>
+        <a href="#">View</a><br>
+        <a href="#">Homework</a><br>
+        <a href="#">Game</a><br>
+        <a href="#">Quit</a>
+    </div>
+
+
 </body>
 </html>
