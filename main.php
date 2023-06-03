@@ -1,6 +1,7 @@
 <?php
     session_start();
     require './function.php';
+    // 
     if(!isset($_SESSION['id'])){
         header('location: index.php');
         exit;
@@ -21,7 +22,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Class</title>
+    <title>Home</title>
 </head>
 <body>
     <h1>Wellcome!</h1>
@@ -29,11 +30,10 @@
     <!-- Current Info -->
     <div>
         <h2>Your Info</h2>
-        <br><br>
         <ul>
             <li>
                 <span>Full name: </span>
-                <span><?=$fulllname?></span>
+                <span><?=$fullname?></span>
             </li>
             <li>
                 <span>Username: </span>
@@ -58,10 +58,10 @@
     <!-- function -->
     <div>
         <h2>Task</h2><br>
-        <a href="#">View</a><br>
+        <a href="view.php">View</a><br>
         <a href="#">Homework</a><br>
         <a href="#">Game</a><br>
-        <a href="#">Quit</a>
+        <a href="logout.php">Quit</a>
     </div>
 
 

@@ -38,5 +38,6 @@ function getInfo($id){
     $stm->bind_param("i", $id);
     $stm->execute();
     $result = $stm->get_result();
+    $result = $result->fetch_assoc();
     return $result;
 }
