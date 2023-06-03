@@ -14,6 +14,7 @@
                 $errors['pass'] = 'Please Enter Your Password!';
             }
         }else{
+            $_SESSION['password'] = $pass;
             $pass = md5($pass);
             $sql = "select id, username, role from user where username = ? and password = ?";
             $stm = $conn->prepare($sql);
@@ -28,14 +29,11 @@
                 $_SESSION['username'] = $row['username'];
                 $_SESSION['id'] = $row['id'];
                 $_SESSION['role'] = $row['role'];
-                if($_SESSION['role'] === 'student')
-                    header('location: student.php');
-                else
-                    header('location: teacher.php');
+                header("location: main.php");
             }
         }
     }
-    disconnectDB($conn);
+    disconnectDB();
 ?>
 
 

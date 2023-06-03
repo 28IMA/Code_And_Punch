@@ -1,5 +1,5 @@
 <?php
-
+global $conn;
 function connectDB(){
     global $conn;
     $conn = mysqli_connect("localhost", "root", "", "codenpunch");
@@ -8,7 +8,8 @@ function connectDB(){
     }
 }
 
-function disconnectDB($conn){
+function disconnectDB(){
+    global $conn;
     if($conn){
         mysqli_close($conn);
     }
@@ -21,10 +22,21 @@ function cleanInput($data){
     return $data;
 }
 
-function insertUser($conn ,$username, $password, $fullname, $email, $phone, $role){
+function insertUser($username, $password, $fullname, $email, $phone, $role){
+    global $conn;
     $sql = 'insert into user (username, password, fullname, email, phone, role) values(?, ?, ?, ?, ?, ?)';
     $statement = $conn->prepare($sql);
     $statement->bind_param("ssssss",$username, $password, $fullname, $email, $phone, $role);
     $statement->execute();
     $statement->close();   
+}
+
+function getInfo($id){
+    global $conn;
+    $sql = 'select * from user where id = ?';
+    $stm = $conn->prepare($sql);
+    $stm->bind_param("i", $id);
+    $stm->execute();
+    $result = $stm->get_result();
+    return $result;
 }

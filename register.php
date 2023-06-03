@@ -74,10 +74,10 @@
         
         if(empty($errors)){
             $password = md5($pass);
-            insertUser($conn ,$username, $password, $fullname, $email, $phone, $role);
+            insertUser($username, $password, $fullname, $email, $phone, $role);
             header('location: index.php');
         }
-        disconnectDB($conn);
+        disconnectDB();
     }
 ?>
 
