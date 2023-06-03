@@ -52,7 +52,7 @@
                 <span><?=$phone?></span>
             </li>
         </ul>
-        <a href="edit.php">Edit</a>
+        <button><a style="text-decoration:none; color:#000" href="edit.php">Edit</a></button>
     </div>
 
     <!-- function -->
