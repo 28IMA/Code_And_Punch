@@ -1,55 +1,144 @@
+<?php
+    require './function.php';
+    connectDB();
+    $errors = [];
+    if(isset($_POST['register'])){
+        $fullname = cleanInput($_POST['fullname']);
+        $username = cleanInput($_POST['username']);
+        $pass = cleanInput($_POST['pass']);
+        $pass2 = cleanInput($_POST['pass2']);
+        $email = cleanInput($_POST['email']);
+        $phone = cleanInput($_POST['phone']);
+        if(!isset($_POST['role'])){
+            $errors['role'] = 'Please Choose Your Role!';
+        }else{
+            $role = $_POST['role'];
+        }
+        
+        if(empty($fullname)){
+            $errors['fullname'] = 'Please Enter Your Full Name!';
+        }
+
+        if(empty($email)){
+            $errors['email'] = 'Please Enter Your Email!';
+        }else{
+            if(!filter_var($email, FILTER_VALIDATE_EMAIL)){
+                $errors['email'] = 'Please Enter A Valid Email!';
+            }else{
+                $sql = 'select * from user where email = ?';
+                $stm = $conn->prepare($sql);
+                $stm->bind_param('s', $email);
+                $stm->execute();
+                $result = $stm->get_result();
+                if(mysqli_num_rows($result) > 0){
+                    $errors['email'] = 'This Email Has Already Used!';
+                }
+            }
+        }
+
+        if(empty($phone)){
+            $errors['phone'] = 'Please Enter Your Phone Number!';
+        }else{
+            if(!preg_match('/^[0][0-9]{9}$/', $phone)){
+                $errors['phone'] = 'Please Enter Valid Phone Number!';
+            }
+        }
+
+        if(empty($username)){
+            $errors['username'] = 'Please Enter Username';
+        }else{
+            $sql = 'select * from user where username = ?';
+            $stm = $conn->prepare($sql);
+            $stm->bind_param('s', $username);
+            $stm->execute();
+            $result = $stm->get_result();
+            if(mysqli_num_rows($result) > 0){
+                $errors['username'] = 'This Username Has Already Existed!';
+            }
+        }
+
+        if(empty($pass)){
+            $errors['pass'] = 'Please Enter Your Password!';
+        }else{
+            if(strlen($pass) < 8)
+                $errors['pass'] = 'Password Must Be At Least 8 Characters!';
+        }
+        
+        if(empty($pass2)){
+            $errors['pass2'] = 'Please Confirm Your Password!';
+        }else{
+            if($pass != $pass2){
+                $errors['pass2'] = 'Password And Confirm Password Must Be The Same!';
+            }
+        }
+        
+        if(empty($errors)){
+            $password = md5($pass);
+            insertUser($conn ,$username, $password, $fullname, $email, $phone, $role);
+            header('location: index.php');
+        }
+        disconnectDB($conn);
+    }
+?>
+
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Đăng ký</title>
-    <link rel="stylesheet" type="text/css" href="register.css">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
 </head>
 <body>
-    <h2>Đăng ký</h2>
-    <form method="POST" action="register.php">
-        <label for="username">Tên đăng nhập:</label>
-        <input type="text" id="username" name="username" required><br><br>
-        <label for="password">Mật khẩu:</label>
-        <input type="password" id="password" name="password" required><br><br>
-        <label for="full_name">Họ tên:</label>
-        <input type="text" id="full_name" name="full_name" required><br><br>
-        <label for="email">Email:</label>
-        <input type="email" id="email" name="email" required><br><br>
-        <label for="phone">Số điện thoại:</label>
-        <input type="text" id="phone" name="phone" required><br><br>
-        <input type="submit" value="Đăng ký">
+    <form action="" method="post">
+        <h1>Sign Up</h1>
+        <!-- fullname -->
+        <p>
+            Full Name: <br>
+            <input type="text" name="fullname" value="<?=$_POST['fullname']??''?>"><br>
+            <span style="color: red;"><?= $errors['fullname'] ?? ''?></span>
+        </p>
+        <!-- email -->
+        <p>
+            Email: <br>
+            <input type="text" name="email" value="<?=$_POST['email']??''?>"><br>
+            <span style="color: red;"><?= $errors['email'] ?? ''?></span>
+        </p>
+        <!-- phone -->
+        <p>
+            Phone Number: <br>
+            <input type="text" name="phone" value="<?=$_POST['phone']??''?>"><br>
+            <span style="color: red;"><?= $errors['phone'] ?? ''?></span>
+        </p>
+        <!-- username -->
+        <p>
+            Username: <br>
+            <input type="text" name="username" value="<?=$_POST['username']??''?>"><br>
+            <span style="color: red;"><?= $errors['username'] ?? ''?></span>
+        </p>
+        <!-- password -->
+        <p>
+            Password: <br>
+            <input type="text" name="pass" value="<?=$_POST['pass']??''?>"><br>
+            <span style="color: red;"><?= $errors['pass'] ?? ''?></span>
+        </p>
+        <!-- confirm password -->
+        <p>
+            Confirm Password: <br>
+            <input type="text" name="pass2" value="<?=$_POST['pass2']??''?>"><br>
+            <span style="color: red;"><?= $errors['pass2'] ?? ''?></span>
+        </p>
+        <!-- role -->
+        <p>
+            You Are: <br>
+            Teacher <input type="radio" name="role" value="teacher">
+            Student <input type="radio" name="role" value="student"><br>
+            <span style="color: red;"><?= $errors['role'] ?? ''?></span>
+        </p>
+        <!-- submit register -->
+        <p>
+        <button type="submit" name="register">Submit</button>       
+        </p>
     </form>
 </body>
 </html>
-
-<?php
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Kết nối đến cơ sở dữ liệu MySQL
-    $conn = new mysqli('localhost', 'username', 'password', 'users');
-
-    // Lấy dữ liệu từ form đăng ký
-    $username = $_POST['username'];
-    $password = $_POST['password'];
-    $full_name = $_POST['full_name'];
-    $email = $_POST['email'];
-    $phone = $_POST['phone'];
-
-    // Truy vấn cơ sở dữ liệu để kiểm tra xem tên đăng nhập đã tồn tại chưa
-    $query = "SELECT * FROM users WHERE username='$username'";
-    $result = $conn->query($query);
-
-    if ($result->num_rows === 0) {
-        // Thêm người dùng mới vào cơ sở dữ liệu
-        $query = "INSERT INTO users (username, password, full_name, email, phone) VALUES ('$username', '$password', '$full_name', '$email', '$phone')";
-        $conn->query($query);
-
-        // Điều hướng đến trang đăng nhập
-        header('Location: index.php');
-    } else {
-        // Tên đăng nhập đã tồn tại, hiển thị thông báo lỗi
-        echo "Tên đăng nhập đã tồn tại!";
-    }
-
-    $conn->close();
-}
-?>
