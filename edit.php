@@ -39,7 +39,7 @@
             }else{
                 $sql = 'select * from user where email = ?';
                 $stm = $conn->prepare($sql);
-                $stm->bind_param('s', $email);
+                $stm->bind_param('s', $newemail);
                 $stm->execute();
                 $result = $stm->get_result();
                 if(mysqli_num_rows($result) > 0){
