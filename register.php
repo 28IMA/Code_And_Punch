@@ -79,9 +79,9 @@
         if(empty($errors)){
             $password = md5($pass);
             insertUser($username, $password, $fullname, $email, $phone, $role);
+            disconnectDB();
             header('location: index.php');
         }
-        disconnectDB();
     }
 ?>
 
