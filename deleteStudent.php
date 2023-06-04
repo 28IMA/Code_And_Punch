@@ -1,14 +1,19 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Delete</title>
-</head>
-<body>
-    <div>
-        <a href="main.php">Back To Home</a>
-    </div>
-</body>
-</html>
+<?php
+    session_start();
+    require './function.php';
+    if(!isset($_SESSION['id']) || $_SESSION['role'] != 'teacher'){
+        header('location: main.php');
+    }
+    if(isset($_POST['delete_id'])){
+        connectDB();
+        $deleteID = $_POST['delete_id'];
+        $sql = 'delete from user where id = ?';
+        $stm = $conn->prepare($sql);
+        $stm->bind_param("i", $deleteID);
+        $stm->execute();
+        $stm->close();
+        disconnectDB();
+        header('location: view.php');
+    }
+
+?>
