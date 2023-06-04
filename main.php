@@ -58,10 +58,12 @@
     <!-- function -->
     <div>
         <h2>Task</h2>
-        <a href="view.php">View</a><br>
-        <a href="#">Homework</a><br>
-        <a href="#">Game</a><br>
-        <a href="logout.php">Quit</a>
+        <ul>
+            <li><a href="view.php">View</a</li>
+            <li><a href="#">Homework</a></li>
+            <li><a href="#">Game</a></li>
+            <li><a href="logout.php">Quit</a></li>
+        </ul>
     </div>
 
 
