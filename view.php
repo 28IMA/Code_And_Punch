@@ -9,7 +9,7 @@
     session_regenerate_id(true);
     connectDB();
     $role = $_SESSION['role'];
-    $users = mysqli_query($conn, "select * from user");
+    $users = mysqli_query($conn, "select * from user order by role, fullname");
     disconnectDB();
     
 ?>
