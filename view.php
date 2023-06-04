@@ -46,7 +46,7 @@
                 <?php if($role =="teacher" && $user['role'] =="student"):?>
                     <div style="display:inline-block;">
                         <form action="editStudent.php" method="post">
-                            <input type="hidden" name ="edit_view" value = "<?=$user['id']?>">
+                            <input type="hidden" name ="edit_id" value = "<?=$user['id']?>">
                             <button type = "submit"> Edit </button>
                         </form>
                     </div>
