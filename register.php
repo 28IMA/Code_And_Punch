@@ -17,6 +17,8 @@
         
         if(empty($fullname)){
             $errors['fullname'] = 'Please Enter Your Full Name!';
+        }else if(preg_match('/[\'"^.£$%&*()}{@#~?><>,|=+_¬-]/', $fullname)){
+            $errors['fullname'] = 'Full Name Can Not Contain Special Character!';
         }
 
         if(empty($email)){
@@ -46,6 +48,8 @@
 
         if(empty($username)){
             $errors['username'] = 'Please Enter Username';
+        }else if(preg_match('/[\'" ^.£$%&*()}{@#~?><>,|=+¬-]/', $username)){
+            $errors['username'] = 'Username Can Only Contain Letter, Number, Underscore';
         }else{
             $sql = 'select * from user where username = ?';
             $stm = $conn->prepare($sql);
@@ -59,10 +63,10 @@
 
         if(empty($pass)){
             $errors['pass'] = 'Please Enter Your Password!';
-        }else{
-            if(strlen($pass) < 8)
-                $errors['pass'] = 'Password Must Be At Least 8 Characters!';
+        }else if(strlen($pass) < 8){
+            $errors['pass'] = 'Password Must Be At Least 8 Characters!';
         }
+        
         
         if(empty($pass2)){
             $errors['pass2'] = 'Please Confirm Your Password!';
