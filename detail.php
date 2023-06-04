@@ -32,7 +32,7 @@
     <title>View Detail</title>
 </head>
 <body>
-    <h3>INFOMATION DETAIL OF <?=strtoupper($view_fullname)?></h3>
+    <h3>INFORMATION DETAIL OF <?=strtoupper($view_fullname)?></h3>
     <div>
         <ul>
             <li>
