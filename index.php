@@ -26,7 +26,6 @@
             }else{
                 //no errors
                 $row = $result->fetch_assoc();
-                $_SESSION['username'] = $row['username'];
                 $_SESSION['id'] = $row['id'];
                 $_SESSION['role'] = $row['role'];
                 header("location: main.php");

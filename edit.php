@@ -1,4 +1,20 @@
 <?php
+    
+    session_start();
+    require './function.php';
+    print_r($_SESSION);
+    // if(!isset($_SESSION['id'])){
+    //     header('location: index.php');
+    //     exit;
+    // }
+
+    // session_regenerate_id(true);
+    // connectDB();
+    // $id = $_SESSION['id'];
+    // $username = $_SESSION['username'];
+    // $user = getInfo($id);
+    
+    
 
 ?>
 

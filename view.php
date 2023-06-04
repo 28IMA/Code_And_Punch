@@ -8,7 +8,6 @@
     }
     session_regenerate_id(true);
     connectDB();
-    $username = $_SESSION['username'];
     $role = $_SESSION['role'];
     $users = mysqli_query($conn, "select * from user");
     disconnectDB();

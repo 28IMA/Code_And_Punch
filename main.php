@@ -9,8 +9,8 @@
     session_regenerate_id(true);
     connectDB();
     $info = getInfo($_SESSION['id']);
-    $username = $_SESSION['username'];
     $password = $_SESSION['password'];
+    $username = $info['username'];
     $fullname = $info['fullname'];
     $email = $info['email'];
     $phone = $info['phone'];
