@@ -57,7 +57,7 @@
 
     <!-- function -->
     <div>
-        <h2>Task</h2><br>
+        <h2>Task</h2>
         <a href="view.php">View</a><br>
         <a href="#">Homework</a><br>
         <a href="#">Game</a><br>

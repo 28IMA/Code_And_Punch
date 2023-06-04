@@ -12,5 +12,10 @@
 </head>
 <body>
     <h1>Add New Student</h1>
+
+
+    <div>
+        <a href="main.php">Back To Home</a>
+    </div>
 </body>
 </html>
