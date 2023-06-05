@@ -10,3 +10,10 @@ CREATE TABLE user(
     phone VARCHAR(10),
     role VARCHAR(10)
 );
+CREATE TABLE homework(
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255),
+    description VARCHAR(255),
+    filename VARCHAR(255),
+    submit INT
+)
